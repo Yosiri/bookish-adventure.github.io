@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account – UMDC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/public.css">
+    <style>
+        .role-toggle { display:flex; gap:10px; margin-bottom:24px; }
+        .role-option { flex:1; }
+        .role-option input { display:none; }
+        .role-label {
+            display:flex; align-items:center; justify-content:center; gap:8px;
+            padding:10px; border:2px solid var(--color-border);
+            border-radius:var(--radius-md); cursor:pointer; font-size:.85rem;
+            font-weight:600; color:var(--color-muted); transition:var(--transition);
+            text-align:center;
+        }
+        .role-option input:checked + .role-label {
+            border-color:var(--brand-primary);
+            background:rgba(59,111,240,.07);
+            color:var(--brand-primary);
+        }
+        .auth-visual { transition: background .4s ease; }
+        .auth-visual.org-theme { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+    </style>
+</head>
+<body>
+
+<div class="auth-page">
+    <!-- ── Visual Panel ──────────────────────────────────── -->
+    <div class="auth-visual" id="authVisual">
+        <div class="auth-visual-content">
+            <div class="auth-icon" id="role-icon">🙋</div>
+            <h1 id="role-title">Become a Donor</h1>
+            <p id="role-desc">Support campaigns and make a direct impact in your community.</p>
+            <div class="auth-stats">
+                <div>
+                    <div class="auth-stat-value">Free</div>
+                    <div class="auth-stat-label">Always</div>
+                </div>
+                <div>
+                    <div class="auth-stat-value">100%</div>
+                    <div class="auth-stat-label">Transparent</div>
+                </div>
+                <div>
+                    <div class="auth-stat-value">Instant</div>
+                    <div class="auth-stat-label">Sign Up</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── Form Panel ─────────────────────────────────────── -->
+    <div class="auth-form-panel">
+        <div class="auth-form-wrap">
+            <div class="brand-name">UMDC <span style="font-weight:400;color:var(--color-muted);font-size:.85rem">Platform</span></div>
+
+            <h2>Create Account</h2>
+            <p class="auth-subtitle">Join thousands making a difference every day</p>
+
+            <div class="auth-error" id="auth-error"></div>
+
+            <!-- Role Selector -->
+            <div class="role-toggle">
+                <div class="role-option">
+                    <input type="radio" name="role_ui" id="role_donor" value="user" checked>
+                    <label class="role-label" for="role_donor">
+                        <i class="fas fa-user"></i> Donor
+                    </label>
+                </div>
+                <div class="role-option">
+                    <input type="radio" name="role_ui" id="role_org" value="organization">
+                    <label class="role-label" for="role_org">
+                        <i class="fas fa-building"></i> Organization
+                    </label>
+                </div>
+            </div>
+
+            <form method="POST" action="/Auth/register.php" id="registerForm" novalidate>
+                <input type="hidden" name="role" id="roleHidden" value="user">
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+                    <div class="form-group">
+                        <label class="form-label" for="first_name">First Name</label>
+                        <input class="form-input" type="text" id="first_name" name="first_name"
+                               placeholder="Juan" required autocomplete="given-name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="last_name">Last Name</label>
+                        <input class="form-input" type="text" id="last_name" name="last_name"
+                               placeholder="dela Cruz" required autocomplete="family-name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input class="form-input" type="email" id="email" name="email"
+                           placeholder="your@email.com" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">
+                        Password <span id="password-strength" style="font-weight:400;font-size:.75rem;margin-left:8px;"></span>
+                    </label>
+                    <div style="position:relative;">
+                        <input class="form-input" type="password" id="password" name="password"
+                               placeholder="Min. 8 characters" required minlength="8"
+                               autocomplete="new-password" style="padding-right:44px;">
+                        <button type="button" id="togglePwd" tabindex="-1"
+                                style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--color-muted);cursor:pointer;font-size:.9rem;">
+                            <i class="fas fa-eye" id="pwdIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="confirm_password">Confirm Password</label>
+                    <input class="form-input" type="password" id="confirm_password" name="confirm_password"
+                           placeholder="Repeat password" required autocomplete="new-password">
+                </div>
+
+                <div style="margin-bottom:20px;font-size:.78rem;color:var(--color-muted);">
+                    By creating an account, you agree to our
+                    <a href="#" style="color:var(--brand-primary);">Terms of Service</a> and
+                    <a href="#" style="color:var(--brand-primary);">Privacy Policy</a>.
+                </div>
+
+                <button type="submit" class="btn-primary" style="width:100%;padding:13px;font-size:1rem;justify-content:center;">
+                    Create Account <i class="fas fa-arrow-right" style="margin-left:4px;"></i>
+                </button>
+            </form>
+
+            <div class="auth-footer-link" style="margin-top:24px;">
+                Already have an account? <a href="/public/login.html">Sign in</a>
+            </div>
+            <div class="auth-footer-link" style="margin-top:8px;">
+                <a href="/public/index.php" style="color:var(--color-muted);font-size:.82rem;">
+                    <i class="fas fa-arrow-left" style="font-size:.7rem;"></i> Back to home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/global.js"></script>
+<script>
+// Sync role radio to hidden input
+document.querySelectorAll('[name="role_ui"]').forEach(r => {
+    r.addEventListener('change', function() {
+        document.getElementById('roleHidden').value = this.value;
+    });
+});
+
+// Toggle password visibility
+document.getElementById('togglePwd')?.addEventListener('click', function() {
+    const pwd  = document.getElementById('password');
+    const icon = document.getElementById('pwdIcon');
+    if (pwd.type === 'password') { pwd.type = 'text'; icon.classList.replace('fa-eye','fa-eye-slash'); }
+    else                         { pwd.type = 'password'; icon.classList.replace('fa-eye-slash','fa-eye'); }
+});
+
+// Update visual panel on role change
+document.querySelectorAll('[name="role_ui"]').forEach(r => {
+    r.addEventListener('change', function() {
+        document.getElementById('roleHidden').value = this.value;
+        const visual = document.getElementById('authVisual');
+        const roleContent = {
+            user:         { icon:'🙋', title:'Become a Donor',       desc:'Support campaigns and make a direct impact in your community.' },
+            organization: { icon:'🏢', title:'Register Your Org',     desc:'Create campaigns and receive donations for your cause.' },
+        };
+        const c = roleContent[this.value];
+        if (c && visual) {
+            document.getElementById('role-icon').textContent  = c.icon;
+            document.getElementById('role-title').textContent = c.title;
+            document.getElementById('role-desc').textContent  = c.desc;
+            if (this.value === 'organization') visual.classList.add('org-theme');
+            else visual.classList.remove('org-theme');
+        }
+    });
+});
+</script>
+<script src="/assets/js/auth.js"></script>
+</body>
+</html>
